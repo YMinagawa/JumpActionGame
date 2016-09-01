@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import java.util.ArrayList;
@@ -45,8 +46,9 @@ public class GameScreen extends ScreenAdapter {
     Ufo mUfo;
     Player mPlayer;
 
+    float mHeightSoFar; //プレイヤーが地面からどれだけ離れたかを保持する
     int mGameState;
-
+    Vector3 mTouchPoint; //タッチされた座標を保持するメンバ変数mTouchPointを定義
 
     //コンストラクタでは引数で受け取ったJumpActionGameクラスのオブジェクトをメンバ変数に格納する。
     public GameScreen(JumpActionGame game){
@@ -71,6 +73,7 @@ public class GameScreen extends ScreenAdapter {
         mSteps = new ArrayList<Step>();
         mStars = new ArrayList<Star>();
         mGameState = GAME_STATE_READY;
+        mTouchPoint = new Vector3(); //タッチされた座標を保持するメンバ変数mTouchPointを定義
 
         createStage();
 
@@ -101,7 +104,7 @@ public class GameScreen extends ScreenAdapter {
         mBg.setPosition(mCamera.position.x-CAMERA_WIDTH/2, mCamera.position.y-CAMERA_HEIGHT/2);
         mBg.draw(mGame.batch);
 
-        //step
+        //Step
         for(int i = 0; i < mSteps.size(); i++){
             mSteps.get(i).draw(mGame.batch);
         }
@@ -172,10 +175,13 @@ public class GameScreen extends ScreenAdapter {
     private void update(float delta){
         switch (mGameState){
             case GAME_STATE_READY:
+                updateReady();
                 break;
             case GAME_STATE_PLAYING:
+                updatePlaying(delta);
                 break;
             case GAME_STATE_GAMEOVER:
+                updateGameOver();
                 break;
         }
     }

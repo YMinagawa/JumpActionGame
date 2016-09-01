@@ -11,12 +11,12 @@ import com.badlogic.gdx.graphics.Texture;
 public class Star extends GameObject{
 
     //横幅、高さ
-    public static final float STAR_WIDTH = 0.0f;
-    public static final float STAR_HEIGHT = 0.0f;
+    public static final float STAR_WIDTH = 0.8f;
+    public static final float STAR_HEIGHT = 0.8f;
 
     //状態
     public static final int STAR_EXIST = 0;
-    public static final int STAR_NONE = 0;
+    public static final int STAR_NONE = 1;
 
     int mState;
 
